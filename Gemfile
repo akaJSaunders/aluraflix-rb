@@ -12,6 +12,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
+gem 'active_model_serializers'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -31,4 +32,6 @@ group :test do
   gem "webdrivers"
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'pry'
+  gem 'database_cleaner-active_record'
 end
