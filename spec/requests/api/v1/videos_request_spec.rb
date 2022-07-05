@@ -31,4 +31,19 @@ RSpec.describe Api::V1::VideosController, type: :request do
       expect(JSON.parse(body)).to eq(expected_video)
     end
   end
+
+  describe "POST video#create" do
+    it "should get a video" do
+      video_params = {
+        video: {
+          titulo: "Cat video",
+          descricao: "super cute cat" ,
+          url: "www.youtube.com/cat"
+        }
+      }
+
+      expect{ post "/api/v1/videos", params: video_params }.to change { Video.count }.from(2).to(3)
+      expect(response.status).to eq(200)
+    end
+  end
 end
