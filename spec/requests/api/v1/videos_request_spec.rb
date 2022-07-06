@@ -8,7 +8,7 @@ RSpec.describe Api::V1::VideosController, type: :request do
   end
 
   describe "GET video#show" do
-    it "should get a video" do
+    it "should get all videos" do
       get "/api/v1/videos"
 
       expect(response.status).to eq(200)
@@ -16,8 +16,8 @@ RSpec.describe Api::V1::VideosController, type: :request do
     end
   end
 
-  describe "GET video#index" do
-    it "should get a video" do
+  describe "GET videos#index" do
+    it "should get a videos" do
       expected_video = {
         "id" => 1,
         "titulo" => "Death Star Explodes",
@@ -32,8 +32,8 @@ RSpec.describe Api::V1::VideosController, type: :request do
     end
   end
 
-  describe "POST video#create" do
-    it "should get a video" do
+  describe "POST videos#create" do
+    it "should create a video" do
       video_params = {
         video: {
           titulo: "Cat video",
@@ -43,6 +43,26 @@ RSpec.describe Api::V1::VideosController, type: :request do
       }
 
       expect{ post "/api/v1/videos", params: video_params }.to change { Video.count }.from(2).to(3)
+      expect(response.status).to eq(200)
+    end
+  end
+
+  describe "PATCH videos#update" do
+    it "should update a video" do
+      video_params = {
+        video: {
+          titulo: "Death Star Destroys Alderaan",
+          descricao: "oops" ,
+        }
+      }
+
+      patch "/api/v1/videos/1", params: video_params
+
+      actual = Video.find(1)
+      expect(actual.titulo).to eq("Death Star Destroys Alderaan")
+      expect(actual.descricao).to eq("oops")
+      expect(actual.url).to eq("http://local/boom")
+
       expect(response.status).to eq(200)
     end
   end

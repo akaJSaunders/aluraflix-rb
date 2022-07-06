@@ -21,6 +21,17 @@ class Api::V1::VideosController < ApplicationController
         end
     end
 
+    # PATCH /api/vi/videos/:id
+    def update
+        @video = Video.find(params[:id])
+
+        if @video.update!(video_params)
+            render json: @video
+        else
+            render status: :unprocessable_entity
+        end
+    end
+
     private
 
     def video_params
