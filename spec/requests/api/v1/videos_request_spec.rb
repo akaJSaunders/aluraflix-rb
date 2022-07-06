@@ -66,4 +66,13 @@ RSpec.describe Api::V1::VideosController, type: :request do
       expect(response.status).to eq(200)
     end
   end
+
+  describe "DELETE videos#destroy" do
+    it "should delete a video" do
+      video_to_delete = Video.create!(titulo: "jump scare", descricao: "horror", url: "www.boo.com")
+
+      expect{ delete "/api/v1/videos/#{video_to_delete.id}" }.to change { Video.count }.from(3).to(2)
+      expect(response.status).to eq(200)
+    end
+  end
 end

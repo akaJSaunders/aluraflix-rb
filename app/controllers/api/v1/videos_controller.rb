@@ -12,23 +12,34 @@ class Api::V1::VideosController < ApplicationController
 
     # POST /api/vi/videos
     def create
-        @video = Video.new(video_params)
+        video = Video.new(video_params)
 
-        if @video.save
-            render json: @video
+        if video.save
+            head :ok
         else
-            render status: :unprocessable_entity
+            head :unprocessable_entity
         end
     end
 
     # PATCH /api/vi/videos/:id
     def update
-        @video = Video.find(params[:id])
+        video = Video.find(params[:id])
 
-        if @video.update!(video_params)
-            render json: @video
+        if video.update!(video_params)
+            head :ok
         else
-            render status: :unprocessable_entity
+            head :unprocessable_entity
+        end
+    end
+
+    # DELETE /api/vi/videos/:id
+    def destroy
+        video = Video.find(params[:id])
+
+        if video.destroy!
+            head :ok
+        else
+            head :unprocessable_entity
         end
     end
 
