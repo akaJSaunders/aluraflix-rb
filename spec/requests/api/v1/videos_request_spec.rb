@@ -33,17 +33,30 @@ RSpec.describe Api::V1::VideosController, type: :request do
   end
 
   describe "POST videos#create" do
-    it "should create a video" do
-      video_params = {
+    let(:valid_params) { 
+      {
         video: {
           titulo: "Cat video",
           descricao: "super cute cat" ,
           url: "www.youtube.com/cat"
         }
       }
+    }
+    context "with valid params" do
+      it "should create a video" do
+        expect{ post "/api/v1/videos", params: valid_params }.to change { Video.count }.from(2).to(3)
+        expect(response.status).to eq(200)
+      end
+    end
 
-      expect{ post "/api/v1/videos", params: video_params }.to change { Video.count }.from(2).to(3)
-      expect(response.status).to eq(200)
+    context "with missing params" do
+      it "should not create a video" do
+        invalid_params = valid_params
+        invalid_params[:video][:url] = nil
+        
+        expect{ post "/api/v1/videos", params: invalid_params }.to_not change { Video.count }
+        expect(response.status).to eq(422)
+      end
     end
   end
 
